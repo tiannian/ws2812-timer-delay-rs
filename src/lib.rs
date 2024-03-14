@@ -16,7 +16,6 @@ use crate::hal::digital::v2::OutputPin;
 use crate::hal::timer::{CountDown, Periodic};
 use smart_leds_trait::{SmartLedsWrite, RGB8};
 
-use nb;
 use nb::block;
 
 pub struct Ws2812<TIMER, PIN> {
@@ -88,7 +87,7 @@ where
     /// Write all the items of an iterator to a ws2812 strip
     fn write<T, I>(&mut self, iterator: T) -> Result<(), Self::Error>
     where
-        T: Iterator<Item = I>,
+        T: IntoIterator<Item = I>,
         I: Into<Self::Color>,
     {
         for item in iterator {
